@@ -12,7 +12,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject coins;
     [SerializeField]  private Animator animplayer;
     [SerializeField] private int difficulty;
-    private float resetTime = 3f;
     private Rigidbody rb;
     private ItemManager mgItem;
     private int jewels = 0;
@@ -24,7 +23,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-      SpawnCoins();
+       
       SelectDificult();
       rb = GetComponent<Rigidbody>();
       mgItem = GetComponent<ItemManager>();
@@ -38,23 +37,6 @@ public class PlayerController : MonoBehaviour
         PlayerJump();
         //MovePlayer();
 
-
-       if (death)
-           {
-               resetTime -= Time.deltaTime;
-           }
-       
-       /* if ((death) && (Input.GetKeyDown(KeyCode.Space)))
-        {
-            speedPlayer = 3.0f;
-            SpawnCoins();
-            death = false;
-            GameManager.instance.scoreInstance = 0;
-           // score = 0;
-
-            
-        }
-       */
 
     }
     private void Run (Vector3 direction)
@@ -111,12 +93,12 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("coin"))
         {
-           Destroy(other.gameObject);
-           GameManager.instance.GetScore();
-           GameManager.instance.addScore();
-           Debug.Log(GameManager.instance.GetScore());
-            //score += 1;
-            //Debug.Log(score);
+            GameObject coin = other.gameObject;
+            coin.SetActive(false);
+            mgItem.AddinventoryOne(coin);
+            mgItem.GetInventoryOne();
+            mgItem.countRewards(coin);
+            
         }
         if (other.gameObject.CompareTag("jewel"))
         {
@@ -137,7 +119,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
- private void OnCollisionEnter(Collision collision)
+    /*
+    private void OnCollisionEnter(Collision collision)
     {
 
         if (collision.gameObject.CompareTag("Enemy"))
@@ -149,7 +132,8 @@ public class PlayerController : MonoBehaviour
 
         }
 
-    }
+    }*/
+
     private void SelectDificult()
     {
         switch (difficulty)
@@ -173,10 +157,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /*
    private void SpawnCoins()
     {
         Instantiate(coins.gameObject);
-    }
+    }*/
 
     public float GetSpeedPlayer()
     {
