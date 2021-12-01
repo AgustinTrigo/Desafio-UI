@@ -5,13 +5,15 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] private float speedPlayer = 3.0f;
+    [SerializeField] private float speedPlayer = 3.0f; // para scriptable object
+    [SerializeField] private float sideSpeed = 3.0f; // para scriptable object
+    [SerializeField] private float jumpForce = 0.8f; // para scriptable object
     [SerializeField] private bool death = false;
-    [SerializeField] private float jumpForce = 0.8f;
     [SerializeField] private Vector3 resetPosition = (new Vector3 (0, 0, 0));
     [SerializeField] private GameObject coins;
-    [SerializeField]  private Animator animplayer;
+    [SerializeField] private Animator animplayer;
     [SerializeField] private int difficulty;
+    [SerializeField] LayerMask groundLayer;
     private Rigidbody rb;
     private ItemManager mgItem;
     private int jewels = 0;
@@ -50,13 +52,13 @@ public class PlayerController : MonoBehaviour
         {
             //Vector3  moveright = new Vector3(-6f, 0f, 0);  
             //transform.Translate(moveright  * Time.deltaTime);
-            transform.position = transform.position += (new Vector3(-0.38f, 0f, 0) * speedPlayer);
+            transform.position = transform.position += (new Vector3(-0.38f, 0f, 0) * sideSpeed);
         }
         if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
         {
            //Vector3 moveleft = new Vector3(6f, 0f, 0);
            //transform.Translate(moveleft * Time.deltaTime);
-           transform.position = transform.position += (new Vector3(0.38f, 0f, 0) * speedPlayer);
+           transform.position = transform.position += (new Vector3(0.38f, 0f, 0) * sideSpeed);
 
         }
 
@@ -78,7 +80,11 @@ public class PlayerController : MonoBehaviour
             animplayer.SetBool("IsJump", true);
 
             // transform.position = transform.position += (new Vector3 (0f, 1f, 0) *jumpForce);
-            rb.AddForce(0, 1 * jumpForce, 0);
+            if (IsGrounded())
+            {
+                rb.AddForce(0, 1 * jumpForce, 0);
+            }
+            
         }
         else
         {
@@ -87,6 +93,16 @@ public class PlayerController : MonoBehaviour
             
         }
        
+    }
+
+    private bool IsGrounded()
+    {
+        if(Physics.Raycast(transform.position, Vector3.down, 0.5f, groundLayer))
+        {
+            return true;
+        }
+        else return false;
+         
     }
 
     private void OnTriggerEnter(Collider other)
@@ -157,12 +173,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    /*
-   private void SpawnCoins()
-    {
-        Instantiate(coins.gameObject);
-    }*/
-
+    
     public float GetSpeedPlayer()
     {
         return speedPlayer;

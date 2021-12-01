@@ -169,12 +169,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedPlayer: 3
-  death: 0
+  sideSpeed: 3
   jumpForce: 220
+  death: 0
   resetPosition: {x: 0, y: 0, z: 0}
   coins: {fileID: 461537175002739408, guid: 6782fcf058a7ee046aa1ea7ca703fbfb, type: 3}
   animplayer: {fileID: 1321305212}
   difficulty: 1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!54 &592882213842210907
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -299,6 +303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11c916c698f1cdd4aa5fcc114ca27be7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rewardsQuantity: 00000000
 --- !u!95 &1321305212
 Animator:
   serializedVersion: 3
