@@ -5,9 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] private float speedPlayer = 3.0f; // para scriptable object
-    [SerializeField] private float sideSpeed = 3.0f; // para scriptable object
-    [SerializeField] private float jumpForce = 0.8f; // para scriptable object
+
     [SerializeField] private bool death = false;
     [SerializeField] private Vector3 resetPosition = (new Vector3 (0, 0, 0));
     [SerializeField] private GameObject coins;
@@ -20,13 +18,13 @@ public class PlayerController : MonoBehaviour
     private int boxes = 0;
 
 
-
+    [SerializeField] protected PlayerData myData;
 
 
     void Start()
     {
        
-      SelectDificult();
+      //SelectDificult();
       rb = GetComponent<Rigidbody>();
       mgItem = GetComponent<ItemManager>();
     }
@@ -43,22 +41,22 @@ public class PlayerController : MonoBehaviour
     }
     private void Run (Vector3 direction)
     {
-        transform.position =  transform.position += direction * speedPlayer * Time.deltaTime;
+        transform.position =  transform.position += direction * myData.SpeedPlayer * Time.deltaTime;
     }
 
-    private void Move()
+    public virtual void Move()
     {
         if (Input.GetKeyDown(KeyCode.A)|| Input.GetKeyDown(KeyCode.LeftArrow))
         {
             //Vector3  moveright = new Vector3(-6f, 0f, 0);  
             //transform.Translate(moveright  * Time.deltaTime);
-            transform.position = transform.position += (new Vector3(-0.38f, 0f, 0) * sideSpeed);
+            transform.position = transform.position += (new Vector3(-0.38f, 0f, 0) * myData.SideSpeedPlayer);
         }
         if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
         {
            //Vector3 moveleft = new Vector3(6f, 0f, 0);
            //transform.Translate(moveleft * Time.deltaTime);
-           transform.position = transform.position += (new Vector3(0.38f, 0f, 0) * sideSpeed);
+           transform.position = transform.position += (new Vector3(0.38f, 0f, 0) * myData.SideSpeedPlayer);
 
         }
 
@@ -82,7 +80,7 @@ public class PlayerController : MonoBehaviour
             // transform.position = transform.position += (new Vector3 (0f, 1f, 0) *jumpForce);
             if (IsGrounded())
             {
-                rb.AddForce(0, 1 * jumpForce, 0);
+                rb.AddForce(0, 1 * myData.PlayerJumpForce, 0);
             }
             
         }
@@ -144,19 +142,19 @@ public class PlayerController : MonoBehaviour
             transform.position = resetPosition;
             speedPlayer = 0f;
             death = true;
-           
-
+     
         }
 
     }*/
 
+    /*
     private void SelectDificult()
     {
         switch (difficulty)
         {
             case 1:
                 Debug.Log("Easy Mode");
-                speedPlayer =3.0f;
+                myData.SpeedPlayer + 3.0f;
                 break;
             case 2:
                 Debug.Log("Normal Mode");
@@ -171,12 +169,12 @@ public class PlayerController : MonoBehaviour
                 speedPlayer = 3.0f;
                 break;
         }
-    }
+    }*/
 
     
     public float GetSpeedPlayer()
     {
-        return speedPlayer;
+        return myData.SpeedPlayer;
     }
     public Vector3 GetPlayerPosition()
     {

@@ -6,7 +6,8 @@ public class ShipController : MonoBehaviour
 {
     [SerializeField] private float shipSpeed = 6f;
     [SerializeField] private float timeLive = 9f;
-    
+
+    [SerializeField] protected ShipData shipData;
 
     // Start is called before the first frame update
     void Start()
