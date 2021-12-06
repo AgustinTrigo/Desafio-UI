@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerController : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] protected PlayerData myData;
 
+    public static event Action onDeath;
 
     void Start()
     {
@@ -133,19 +135,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    /*
+    
     private void OnCollisionEnter(Collision collision)
     {
 
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            transform.position = resetPosition;
-            speedPlayer = 0f;
-            death = true;
-     
+            onDeath?.Invoke();
         }
 
-    }*/
+    }
 
     /*
     private void SelectDificult()

@@ -15,16 +15,18 @@ public class SpawnController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+
     }
 
-    private void OnTriggerEnter(Collider other)
+       
+    public void SpawnShip()
     {
-        int enemyIndex = Random.Range(0, enemyPrefab.Length);
-        Instantiate(enemyPrefab[enemyIndex], transform.position, enemyPrefab[enemyIndex].transform.rotation);
-        ShipsName(enemyIndex);
+            int enemyIndex = Random.Range(0, enemyPrefab.Length);
+            Instantiate(enemyPrefab[enemyIndex], transform.position, enemyPrefab[enemyIndex].transform.rotation);
+            ShipsName(enemyIndex);
     }
-
+   
     private void ShipsName( int enemyIndex)
     {
         for (int i = 0; i < enemyPrefab.Length; i++)
