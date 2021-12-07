@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
@@ -15,7 +16,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] LayerMask groundLayer;
     private Rigidbody rb;
     private ItemManager mgItem;
-    private int jewels = 0;
+    
+    //private int jewels = 0;
     private int boxes = 0;
 
 
@@ -41,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
 
     }
-    private void Run (Vector3 direction)
+    private void Run(Vector3 direction)
     {
         transform.position =  transform.position += direction * myData.SpeedPlayer * Time.deltaTime;
     }
@@ -116,16 +118,13 @@ public class PlayerController : MonoBehaviour
             mgItem.countRewards(coin);
             
         }
-        if (other.gameObject.CompareTag("jewel"))
+        if (other.gameObject.CompareTag("buff"))
         {
-            GameObject jewel = other.gameObject;
-            jewel.SetActive(false);
-            mgItem.AddinventoryOne(jewel);
-            jewels++;
-            Debug.Log( "Numero de joyas"+""+jewels);
-
-
+            GameObject buff = other.gameObject;
+            buff.SetActive(false);
+            
         }
+
         if (other.gameObject.CompareTag("box"))
         {
             GameObject box = other.gameObject;
