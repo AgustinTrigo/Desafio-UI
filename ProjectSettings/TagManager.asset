@@ -9,6 +9,7 @@ TagManager:
   - jewel
   - box
   - buff
+  - ground
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - GlobalPostProcessing
   - 
   - 
   - 

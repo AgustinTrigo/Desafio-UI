@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class GameManager : MonoBehaviour
 {
     // Start is called before the first frame update
     public static GameManager instance;
     public int scoreInstance;
+    //private bool gameRunning = true;
+
+    
 
     public enum Rewards {AlienCoin};
 
@@ -27,12 +31,14 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         PlayerController.onDeath += OnDeathHandler;
+        
     }
 
     private void OnDeathHandler()
     {
         SceneManager.LoadScene("OnDeathScene");
     }
+
 
     // Update is called once per frame
     void Update()
@@ -48,4 +54,15 @@ public class GameManager : MonoBehaviour
     {
         return instance.scoreInstance;
     }
+
+    /*
+    public void ChangeStateOfGame()
+    {
+        gameRunning = !gameRunning;
+    }
+
+    public bool IsGameRunning()
+    {
+        return gameRunning;
+    }*/
 }

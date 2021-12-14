@@ -16,63 +16,76 @@ public class PlayerController : MonoBehaviour
     [SerializeField] LayerMask groundLayer;
     private Rigidbody rb;
     private ItemManager mgItem;
+    //private GameManager gm;
     
     //private int jewels = 0;
     private int boxes = 0;
 
 
+
     [SerializeField] protected PlayerData myData;
 
     public static event Action onDeath;
+    public static event Action<bool> onEnemyChange;
+
+    //public static event Action onTutorial;
 
     void Start()
     {
        
       //SelectDificult();
-      rb = GetComponent<Rigidbody>();
-      mgItem = GetComponent<ItemManager>();
+        rb = GetComponent<Rigidbody>();
+        mgItem = GetComponent<ItemManager>();
+        //gm = GetComponent<GameManager>();
+
+        //StartCoroutine(TutorialBehaviour());
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        Run(Vector3.forward);
+        //if(gm.IsGameRunning())
+        //{
+            Run(Vector3.forward);
+        //}
+        
         Move();
         PlayerJump();
-        //MovePlayer();
-
 
     }
+
+    /*
+    IEnumerator TutorialBehaviour()
+    {
+        yield return new WaitForSeconds(6f);
+        gm.ChangeStateOfGame();
+    }*/
+
+    
     private void Run(Vector3 direction)
     {
         transform.position =  transform.position += direction * myData.SpeedPlayer * Time.deltaTime;
     }
 
+
+
     public virtual void Move()
     {
         if (Input.GetKeyDown(KeyCode.A)|| Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            //Vector3  moveright = new Vector3(-6f, 0f, 0);  
-            //transform.Translate(moveright  * Time.deltaTime);
+
             transform.position = transform.position += (new Vector3(-0.38f, 0f, 0) * myData.SideSpeedPlayer);
         }
         if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
         {
-           //Vector3 moveleft = new Vector3(6f, 0f, 0);
-           //transform.Translate(moveleft * Time.deltaTime);
+
            transform.position = transform.position += (new Vector3(0.38f, 0f, 0) * myData.SideSpeedPlayer);
 
         }
 
     }
-    /*
-    private void MovePlayer()
-    {
-        float ejeHorizontal = Input.GetAxisRaw("Horizontal");
-        float ejeVertical = Input.GetAxisRaw("Vertical");
-        transform.Translate(speedPlayer * Time.deltaTime * new Vector3(ejeHorizontal*2, 0, ejeVertical*2));
-    }
-    */
+
 
     private void PlayerJump()
     {
@@ -81,7 +94,6 @@ public class PlayerController : MonoBehaviour
             animplayer.SetBool("IsRun", false);  
             animplayer.SetBool("IsJump", true);
 
-            // transform.position = transform.position += (new Vector3 (0f, 1f, 0) *jumpForce);
             if (IsGrounded())
             {
                 rb.AddForce(0, 1 * myData.PlayerJumpForce, 0);
@@ -116,8 +128,9 @@ public class PlayerController : MonoBehaviour
             mgItem.AddinventoryOne(coin);
             mgItem.GetInventoryOne();
             mgItem.countRewards(coin);
-            
+
         }
+
         if (other.gameObject.CompareTag("buff"))
         {
             GameObject buff = other.gameObject;
@@ -140,10 +153,13 @@ public class PlayerController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            onDeath?.Invoke();
+            //onDeath?.Invoke();
+            onEnemyChange?.Invoke(true);
         }
 
     }
+
+
 
     /*
     private void SelectDificult()
@@ -183,8 +199,6 @@ public class PlayerController : MonoBehaviour
     {
         return death;
     }
-
-
 
 
 }
